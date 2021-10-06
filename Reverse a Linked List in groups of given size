@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+                                                                          /* Link list node */
+class Node {
+public:
+    int data;
+    Node* next;
+};
+  
+                                          /* Reverses the linked list in groups of size k and returns the pointer to that new head node. */
+Node* reverse(Node* head, int k)
+{
+    if (!head)
+        return NULL;
+    Node* current = head;
+    Node* next = NULL;
+    Node* prev = NULL;
+    int count = 0;
+ 
+                                                            /*reverse first k nodes of the linked list */
+    while (current != NULL && count < k) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+        count++;
+    }
+
+    if (next != NULL)
+        head->next = reverse(next, k);
+    return prev;
+}
+ 
+                                                                        /* Function to push a node */
+void push(Node** head_ref, int new_data)
+{
+    Node* new_node = new Node();
+    new_node->data = new_data;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+ 
+                                                                        /* Function to print linked list */
+void printList(Node* node)
+{
+    while (node != NULL) {
+        cout << node->data << " ";
+        node = node->next;
+    }
+}
+int main()
+{
+    Node* head = NULL;
+ 
+                                                                       /* Create a Linked list 1->2->3->4->5->6->7->8->9 */
+    push(&head, 1);
+    push(&head, 2);
+    push(&head, 3);
+    push(&head, 4);
+    push(&head, 5);
+ 
+    cout << "Linked list \n";
+    printList(head);
+    int k;
+    cout<<"Enter value of k group to reverse";
+    cin>>k;
+    head = reverse(head, k);
+ 
+    cout << "\nReversed Linked list \n";
+    printList(head);
+ 
+    return (0);
+}
+    
